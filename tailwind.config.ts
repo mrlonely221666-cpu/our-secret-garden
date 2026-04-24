@@ -14,6 +14,7 @@ export default {
       fontFamily: {
         display: ["Cormorant Garamond", "serif"],
         script: ["Dancing Script", "cursive"],
+        calligraphy: ["Italianno", "cursive"],
         body: ["Inter", "sans-serif"],
       },
       colors: {
@@ -53,10 +54,18 @@ export default {
         rose: {
           DEFAULT: "hsl(var(--rose))",
           glow: "hsl(var(--rose-glow))",
+          deep: "hsl(var(--rose-deep))",
         },
-        plum: "hsl(var(--plum))",
-        gold: "hsl(var(--gold))",
+        plum: {
+          DEFAULT: "hsl(var(--plum))",
+          deep: "hsl(var(--plum-deep))",
+        },
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          bright: "hsl(var(--gold-bright))",
+        },
         starlight: "hsl(var(--starlight))",
+        velvet: "hsl(var(--velvet))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -76,13 +85,18 @@ export default {
       backgroundImage: {
         "gradient-night": "var(--gradient-night)",
         "gradient-rose": "var(--gradient-rose)",
+        "gradient-rose-gold": "var(--gradient-rose-gold)",
         "gradient-letter": "var(--gradient-letter)",
         "gradient-postit": "var(--gradient-postit)",
+        "gradient-gold": "var(--gradient-gold)",
+        "gradient-velvet": "var(--gradient-velvet)",
       },
       boxShadow: {
         romantic: "var(--shadow-romantic)",
+        letter: "var(--shadow-letter)",
         "glow-rose": "var(--glow-rose)",
         "glow-soft": "var(--glow-soft)",
+        "glow-gold": "var(--glow-gold)",
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },

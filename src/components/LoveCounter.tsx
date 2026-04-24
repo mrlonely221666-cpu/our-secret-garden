@@ -42,14 +42,17 @@ export const LoveCounter = () => {
   return (
     <button
       onClick={() => setEditing(true)}
-      className="romantic-card px-5 py-3 hover:shadow-glow-soft transition-all group"
+      className="romantic-card w-full px-6 py-5 hover:shadow-glow-rose transition-all group flex items-center justify-center gap-4 sm:gap-6"
     >
-      <p className="font-script text-rose-glow text-lg leading-tight">
-        Ensemble depuis
-      </p>
-      <p className="font-display text-2xl sm:text-3xl text-gradient-rose">
-        {days.toLocaleString("fr-FR")} jours ✨
-      </p>
+      <span className="hidden sm:block text-4xl text-gold animate-glow-pulse">✦</span>
+      <div className="text-center">
+        <p className="font-calligraphy text-xl text-gold-bright leading-none">~ ensemble depuis ~</p>
+        <p className="font-display italic text-3xl sm:text-5xl text-gradient-rose-gold leading-tight">
+          {days.toLocaleString("fr-FR")} <span className="font-script not-italic text-2xl sm:text-3xl">jours</span>
+        </p>
+        <p className="font-script text-rose-glow/70 text-sm">de notre histoire ✨</p>
+      </div>
+      <span className="hidden sm:block text-4xl text-gold animate-glow-pulse" style={{ animationDelay: "1s" }}>✦</span>
     </button>
   );
 };

@@ -6,6 +6,7 @@ import { GallerySection } from "@/components/sections/GallerySection";
 import { MusicSection } from "@/components/sections/MusicSection";
 import { LoveCounter } from "@/components/LoveCounter";
 import { SecretMessage } from "@/components/SecretMessage";
+import { Ornament } from "@/components/Ornament";
 
 type Tab = "letters" | "notes" | "gallery" | "music";
 
@@ -25,20 +26,24 @@ export const Dashboard = ({ onLock }: DashboardProps) => {
 
   return (
     <div className="relative z-10 min-h-screen">
-      <header className="container max-w-6xl pt-8 pb-4 flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <h1 className="font-display text-4xl sm:text-5xl text-gradient-rose">Notre jardin secret</h1>
-          <p className="font-script text-lg text-muted-foreground">Un espace rien qu'à nous deux ♥</p>
+      <header className="container max-w-6xl pt-10 pb-4 flex items-center justify-between flex-wrap gap-4">
+        <div className="space-y-1">
+          <p className="font-calligraphy text-2xl text-gold-bright leading-none">~ bienvenue ~</p>
+          <h1 className="font-display italic text-4xl sm:text-5xl lg:text-6xl text-gradient-rose-gold leading-tight">
+            Notre jardin secret
+          </h1>
+          <p className="font-script text-lg text-rose-glow/80">Un espace rien qu'à nous deux ♥</p>
         </div>
         <button
           onClick={onLock}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-rose-glow transition-colors"
+          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-rose-glow transition-colors px-4 py-2 rounded-full border border-border hover:border-rose/40"
         >
           <LogOut className="w-4 h-4" /> Verrouiller
         </button>
       </header>
 
       <div className="container max-w-6xl mb-6">
+        <Ornament className="max-w-md mx-auto mb-6" />
         <LoveCounter />
       </div>
 
@@ -54,7 +59,7 @@ export const Dashboard = ({ onLock }: DashboardProps) => {
                 onClick={() => setTab(t.id)}
                 className={`flex-1 min-w-fit px-4 py-3 rounded-xl font-display text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 ${
                   active
-                    ? "bg-gradient-rose text-primary-foreground shadow-glow-soft"
+                    ? "bg-gradient-rose-gold text-primary-foreground shadow-glow-rose"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
               >
@@ -76,8 +81,9 @@ export const Dashboard = ({ onLock }: DashboardProps) => {
 
       <SecretMessage />
 
-      <footer className="container max-w-6xl py-8 text-center">
-        <p className="font-script text-rose-glow/70 text-lg">Fait avec ♥</p>
+      <footer className="container max-w-6xl py-10 text-center space-y-3">
+        <Ornament className="max-w-xs mx-auto" />
+        <p className="font-calligraphy text-3xl text-gradient-rose-gold">Fait avec amour ♥</p>
       </footer>
     </div>
   );
