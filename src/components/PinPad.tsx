@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Delete } from "lucide-react";
+import { Ornament } from "@/components/Ornament";
 
 interface PinPadProps {
   onSuccess: () => void;
@@ -40,11 +41,13 @@ export const PinPad = ({ onSuccess, correctPin = "0104" }: PinPadProps) => {
   const digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   return (
-    <div className="flex flex-col items-center gap-8 animate-fade-in">
-      <div className="text-center space-y-2">
-        <h2 className="font-display text-3xl sm:text-4xl text-gradient-rose">
-          Entre notre code secret
+    <div className="romantic-card max-w-md w-full p-8 sm:p-10 flex flex-col items-center gap-7 animate-scale-in shadow-glow-rose">
+      <div className="text-center space-y-3">
+        <p className="font-calligraphy text-2xl text-gold-bright">~ entre, mon amour ~</p>
+        <h2 className="font-display italic text-3xl sm:text-4xl text-gradient-rose-gold leading-tight">
+          Notre code secret
         </h2>
+        <Ornament className="max-w-[220px] mx-auto" />
         <p className="text-muted-foreground font-script text-lg">
           quatre chiffres pour ouvrir mon cœur
         </p>
@@ -64,9 +67,11 @@ export const PinPad = ({ onSuccess, correctPin = "0104" }: PinPadProps) => {
         ))}
       </div>
 
-      {error && (
-        <p className="text-rose-glow font-script text-xl animate-fade-in">{error}</p>
-      )}
+      <div className="h-6 flex items-center">
+        {error && (
+          <p className="text-rose-glow font-script text-xl animate-fade-in">{error}</p>
+        )}
+      </div>
 
       {/* Keypad */}
       <div className="grid grid-cols-3 gap-3 sm:gap-4">
@@ -74,7 +79,7 @@ export const PinPad = ({ onSuccess, correctPin = "0104" }: PinPadProps) => {
           <button
             key={d}
             onClick={() => handleDigit(d)}
-            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-card/60 backdrop-blur-md border border-border text-2xl font-display text-foreground hover:bg-rose/20 hover:border-rose hover:shadow-glow-soft transition-all duration-200 active:scale-95"
+            className="w-16 h-16 sm:w-[70px] sm:h-[70px] rounded-full bg-gradient-velvet border border-rose/20 text-2xl font-display text-foreground hover:border-gold/60 hover:shadow-glow-gold hover:text-gold-bright transition-all duration-200 active:scale-95"
           >
             {d}
           </button>
@@ -82,14 +87,14 @@ export const PinPad = ({ onSuccess, correctPin = "0104" }: PinPadProps) => {
         <div />
         <button
           onClick={() => handleDigit("0")}
-          className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-card/60 backdrop-blur-md border border-border text-2xl font-display text-foreground hover:bg-rose/20 hover:border-rose hover:shadow-glow-soft transition-all duration-200 active:scale-95"
+          className="w-16 h-16 sm:w-[70px] sm:h-[70px] rounded-full bg-gradient-velvet border border-rose/20 text-2xl font-display text-foreground hover:border-gold/60 hover:shadow-glow-gold hover:text-gold-bright transition-all duration-200 active:scale-95"
         >
           0
         </button>
         <button
           onClick={handleDelete}
           aria-label="Effacer"
-          className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-card/40 backdrop-blur-md border border-border text-muted-foreground hover:text-rose-glow hover:border-rose/60 transition-all duration-200 active:scale-95 flex items-center justify-center"
+          className="w-16 h-16 sm:w-[70px] sm:h-[70px] rounded-full bg-card/40 border border-border text-muted-foreground hover:text-rose-glow hover:border-rose/60 transition-all duration-200 active:scale-95 flex items-center justify-center"
         >
           <Delete className="w-5 h-5" />
         </button>
