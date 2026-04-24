@@ -72,19 +72,19 @@ export const NotesSection = () => {
         {notes.map((n) => (
           <div
             key={n.id}
-            className="group relative aspect-square p-4 shadow-romantic transition-all duration-300 hover:scale-105 hover:rotate-0 hover:z-10"
+            className="group relative aspect-square p-4 shadow-romantic transition-all duration-500 hover:scale-[1.04] hover:rotate-0 hover:z-10 hover:shadow-elevated"
             style={{
-              background: `linear-gradient(135deg, hsl(${n.hue} 80% 88%) 0%, hsl(${(n.hue + 10) % 360} 75% 80%) 100%)`,
+              background: `linear-gradient(135deg, hsl(${n.hue} 70% 86%) 0%, hsl(${(n.hue + 10) % 360} 65% 78%) 100%)`,
               transform: `rotate(${n.rotation}deg)`,
-              borderRadius: "4px 16px 4px 16px",
+              borderRadius: "4px 18px 4px 18px",
             }}
           >
-            <p className="font-script text-lg sm:text-xl text-plum leading-snug whitespace-pre-wrap break-words">
+            <p className="font-script text-lg sm:text-xl text-plum-deep leading-snug whitespace-pre-wrap break-words">
               {n.text}
             </p>
             <button
               onClick={() => remove(n.id)}
-              className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 p-1 rounded-full bg-plum/80 text-white hover:bg-plum transition-all"
+              className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 p-1 rounded-full bg-plum-deep/80 text-starlight hover:bg-plum-deep transition-all"
               aria-label="Supprimer"
             >
               <X className="w-3.5 h-3.5" />
