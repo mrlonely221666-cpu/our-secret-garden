@@ -40,7 +40,7 @@ export const LettersSection = () => {
           <h2 className="font-display italic text-3xl sm:text-4xl text-gradient-rose-gold">Lettres d'amour</h2>
           <p className="text-muted-foreground text-sm mt-1">Mots du cœur à garder pour toujours</p>
         </div>
-        <Button onClick={() => setAdding(true)} className="bg-gradient-rose-gold text-primary-foreground hover:opacity-90 shadow-glow-rose">
+        <Button onClick={() => setAdding(true)} className="bg-gradient-rose-gold text-primary-foreground hover:opacity-95 shadow-glow-soft hover:shadow-glow-gold transition-all">
           <Plus className="w-4 h-4 mr-2" /> Nouvelle lettre
         </Button>
       </div>
@@ -70,7 +70,7 @@ export const LettersSection = () => {
             className="group relative cursor-pointer"
             onClick={() => setOpened(l)}
           >
-            <div className="bg-gradient-letter rounded-2xl p-6 shadow-letter transition-all duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:shadow-glow-rose aspect-[4/3] flex flex-col relative overflow-hidden">
+            <div className="bg-gradient-letter rounded-2xl p-6 shadow-letter transition-all duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:shadow-elevated aspect-[4/3] flex flex-col relative overflow-hidden">
               {/* Decorative corner ornament */}
               <div className="absolute top-0 left-0 w-16 h-16 opacity-20" aria-hidden="true">
                 <svg viewBox="0 0 64 64" fill="none" className="w-full h-full">

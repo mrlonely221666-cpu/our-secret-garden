@@ -8,63 +8,68 @@
 
 @layer base {
   :root {
-    --background: 330 35% 6%;
-    --foreground: 340 30% 95%;
+    --background: 330 38% 4%;
+    --foreground: 35 35% 94%;
 
-    --card: 330 30% 10%;
-    --card-foreground: 340 30% 95%;
+    --card: 330 32% 8%;
+    --card-foreground: 35 35% 94%;
 
-    --popover: 330 35% 8%;
-    --popover-foreground: 340 30% 95%;
+    --popover: 330 38% 6%;
+    --popover-foreground: 35 35% 94%;
 
-    --primary: 345 75% 65%;
-    --primary-foreground: 330 40% 8%;
+    --primary: 345 68% 62%;
+    --primary-foreground: 330 40% 6%;
 
-    --secondary: 320 25% 18%;
-    --secondary-foreground: 340 30% 95%;
+    --secondary: 320 22% 14%;
+    --secondary-foreground: 35 35% 94%;
 
-    --muted: 330 20% 14%;
-    --muted-foreground: 335 20% 70%;
+    --muted: 330 22% 11%;
+    --muted-foreground: 335 18% 68%;
 
-    --accent: 15 85% 75%;
-    --accent-foreground: 330 40% 8%;
+    --accent: 38 70% 62%;
+    --accent-foreground: 330 40% 6%;
 
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 340 30% 95%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 35 35% 94%;
 
-    --border: 330 25% 20%;
-    --input: 330 25% 16%;
-    --ring: 345 75% 65%;
+    --border: 38 30% 22%;
+    --input: 330 25% 13%;
+    --ring: 38 70% 62%;
 
     --radius: 1rem;
 
-    /* Romantic tokens */
-    --rose: 345 75% 65%;
-    --rose-glow: 350 90% 78%;
-    --rose-deep: 340 60% 45%;
-    --plum: 295 40% 25%;
-    --plum-deep: 290 45% 15%;
-    --gold: 38 75% 65%;
-    --gold-bright: 45 90% 72%;
-    --starlight: 45 100% 92%;
-    --velvet: 335 50% 12%;
+    /* Romantic premium tokens — rose gold × velvet */
+    --rose: 345 68% 62%;
+    --rose-glow: 350 80% 75%;
+    --rose-deep: 340 55% 38%;
+    --plum: 295 38% 22%;
+    --plum-deep: 290 42% 12%;
+    --gold: 36 65% 58%;
+    --gold-bright: 42 80% 70%;
+    --gold-deep: 32 55% 42%;
+    --starlight: 42 90% 90%;
+    --velvet: 335 45% 9%;
+    --velvet-deep: 320 40% 6%;
 
-    --gradient-night: radial-gradient(ellipse at 20% 0%, hsl(295 50% 22% / 0.8) 0%, transparent 50%),
-                      radial-gradient(ellipse at 80% 30%, hsl(340 55% 20% / 0.7) 0%, transparent 50%),
-                      radial-gradient(ellipse at 50% 100%, hsl(15 50% 25% / 0.5) 0%, transparent 60%),
-                      linear-gradient(180deg, hsl(330 40% 5%) 0%, hsl(295 45% 8%) 50%, hsl(330 40% 4%) 100%);
-    --gradient-rose: linear-gradient(135deg, hsl(345 75% 65%) 0%, hsl(15 85% 75%) 100%);
-    --gradient-rose-gold: linear-gradient(135deg, hsl(345 75% 65%) 0%, hsl(38 75% 65%) 60%, hsl(15 85% 75%) 100%);
-    --gradient-letter: linear-gradient(180deg, hsl(35 60% 94%) 0%, hsl(25 55% 86%) 60%, hsl(20 50% 80%) 100%);
-    --gradient-postit: linear-gradient(135deg, hsl(345 80% 88%) 0%, hsl(355 75% 82%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(38 75% 65%) 0%, hsl(45 90% 80%) 50%, hsl(30 70% 55%) 100%);
-    --gradient-velvet: linear-gradient(160deg, hsl(335 45% 14%) 0%, hsl(295 40% 10%) 100%);
+    --gradient-night: radial-gradient(ellipse at 18% -5%, hsl(295 42% 16% / 0.85) 0%, transparent 55%),
+                      radial-gradient(ellipse at 85% 25%, hsl(340 48% 14% / 0.75) 0%, transparent 55%),
+                      radial-gradient(ellipse at 50% 105%, hsl(36 35% 14% / 0.45) 0%, transparent 60%),
+                      linear-gradient(180deg, hsl(330 42% 4%) 0%, hsl(295 38% 6%) 50%, hsl(330 42% 3%) 100%);
+    --gradient-rose: linear-gradient(135deg, hsl(345 68% 62%) 0%, hsl(15 70% 68%) 100%);
+    --gradient-rose-gold: linear-gradient(135deg, hsl(345 65% 58%) 0%, hsl(36 65% 60%) 55%, hsl(42 78% 72%) 100%);
+    --gradient-letter: linear-gradient(180deg, hsl(38 55% 93%) 0%, hsl(30 50% 85%) 55%, hsl(22 45% 78%) 100%);
+    --gradient-postit: linear-gradient(135deg, hsl(345 70% 86%) 0%, hsl(355 65% 80%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(36 65% 55%) 0%, hsl(42 80% 75%) 50%, hsl(30 60% 48%) 100%);
+    --gradient-velvet: linear-gradient(160deg, hsl(335 42% 11%) 0%, hsl(295 38% 8%) 60%, hsl(330 42% 5%) 100%);
+    --gradient-card: linear-gradient(155deg, hsl(335 38% 11% / 0.85) 0%, hsl(320 32% 8% / 0.9) 100%);
 
-    --glow-rose: 0 0 40px hsl(345 75% 65% / 0.4), 0 0 80px hsl(345 75% 65% / 0.2);
-    --glow-soft: 0 0 30px hsl(350 90% 78% / 0.3);
-    --glow-gold: 0 0 25px hsl(38 80% 65% / 0.35), 0 0 60px hsl(38 80% 65% / 0.15);
-    --shadow-romantic: 0 20px 60px -15px hsl(330 60% 5% / 0.7);
-    --shadow-letter: 0 30px 60px -20px hsl(330 60% 3% / 0.8), 0 0 0 1px hsl(38 75% 65% / 0.15) inset;
+    --glow-rose: 0 0 30px hsl(345 68% 62% / 0.28), 0 0 70px hsl(345 68% 62% / 0.12);
+    --glow-soft: 0 0 24px hsl(350 80% 75% / 0.22);
+    --glow-gold: 0 0 22px hsl(36 70% 60% / 0.28), 0 0 55px hsl(36 70% 60% / 0.12);
+    --glow-velvet: 0 0 40px hsl(335 50% 15% / 0.6);
+    --shadow-romantic: 0 24px 60px -20px hsl(330 60% 2% / 0.75), 0 1px 0 hsl(38 50% 50% / 0.06) inset;
+    --shadow-letter: 0 30px 70px -20px hsl(330 60% 2% / 0.85), 0 0 0 1px hsl(36 65% 55% / 0.18) inset, 0 1px 0 hsl(45 80% 90% / 0.4) inset;
+    --shadow-elevated: 0 40px 80px -30px hsl(330 60% 2% / 0.85), 0 12px 30px -15px hsl(345 68% 30% / 0.25);
 
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -152,9 +157,11 @@
 
   /* Glow card */
   .romantic-card {
-    @apply bg-card/60 backdrop-blur-xl border border-border rounded-2xl;
+    @apply backdrop-blur-2xl border border-border/60 rounded-2xl;
+    background: var(--gradient-card);
     box-shadow: var(--shadow-romantic);
     position: relative;
+    transition: box-shadow 0.5s var(--transition-smooth), transform 0.5s var(--transition-smooth), border-color 0.5s var(--transition-smooth);
   }
   .romantic-card::before {
     content: "";
@@ -162,15 +169,27 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, hsl(var(--rose) / 0.4), transparent 40%, hsl(var(--gold) / 0.3) 100%);
+    background: linear-gradient(135deg, hsl(var(--gold) / 0.45) 0%, hsl(var(--rose) / 0.25) 35%, transparent 60%, hsl(var(--gold) / 0.3) 100%);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
     pointer-events: none;
   }
+  .romantic-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(ellipse at top, hsl(var(--rose) / 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
 
   .glow-rose {
     box-shadow: var(--glow-rose);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
   }
 
   .text-gradient-rose {

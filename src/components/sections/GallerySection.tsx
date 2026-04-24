@@ -100,7 +100,7 @@ export const GallerySection = () => {
         <Button
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="bg-gradient-rose-gold text-primary-foreground hover:opacity-90 shadow-glow-rose"
+          className="bg-gradient-rose-gold text-primary-foreground hover:opacity-95 shadow-glow-soft hover:shadow-glow-gold transition-all"
         >
           {uploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
           {uploading ? "Envoi…" : "Ajouter des photos"}
@@ -132,11 +132,11 @@ export const GallerySection = () => {
         {photos.map((p) => (
           <div
             key={p.id}
-            className="group relative aspect-square overflow-hidden rounded-2xl shadow-romantic cursor-pointer"
+            className="group relative aspect-square overflow-hidden rounded-2xl shadow-romantic hover:shadow-elevated transition-all duration-500 cursor-pointer ring-1 ring-gold/10 hover:ring-gold/40"
             onClick={() => setLightbox(p)}
           >
-            <img src={p.url} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <img src={p.url} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-gradient-to-t from-velvet-deep/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <button
               onClick={(e) => { e.stopPropagation(); remove(p); }}
               className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-2 rounded-full bg-destructive/80 text-destructive-foreground hover:bg-destructive transition-all"
