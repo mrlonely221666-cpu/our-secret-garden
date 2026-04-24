@@ -40,7 +40,7 @@ export const NotesSection = () => {
           <h2 className="font-display text-3xl sm:text-4xl text-gradient-rose">Notes</h2>
           <p className="text-muted-foreground text-sm">Petites pensées éphémères</p>
         </div>
-        <Button onClick={() => setAdding(true)} className="bg-gradient-rose text-primary-foreground hover:opacity-90 shadow-glow-soft">
+        <Button onClick={() => setAdding(true)} className="bg-gradient-rose-gold text-primary-foreground hover:opacity-95 shadow-glow-soft hover:shadow-glow-gold transition-all">
           <Plus className="w-4 h-4 mr-2" /> Nouvelle note
         </Button>
       </div>
