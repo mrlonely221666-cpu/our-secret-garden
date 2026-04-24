@@ -70,7 +70,7 @@ export const LettersSection = () => {
             className="group relative cursor-pointer"
             onClick={() => setOpened(l)}
           >
-            <div className="bg-gradient-letter rounded-2xl p-6 shadow-letter transition-all duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:shadow-glow-rose aspect-[4/3] flex flex-col relative overflow-hidden">
+            <div className="bg-gradient-letter rounded-2xl p-6 shadow-letter transition-all duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:shadow-elevated aspect-[4/3] flex flex-col relative overflow-hidden">
               {/* Decorative corner ornament */}
               <div className="absolute top-0 left-0 w-16 h-16 opacity-20" aria-hidden="true">
                 <svg viewBox="0 0 64 64" fill="none" className="w-full h-full">
