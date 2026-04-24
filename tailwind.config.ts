@@ -94,13 +94,16 @@ export default {
         "gradient-postit": "var(--gradient-postit)",
         "gradient-gold": "var(--gradient-gold)",
         "gradient-velvet": "var(--gradient-velvet)",
+        "gradient-card": "var(--gradient-card)",
       },
       boxShadow: {
         romantic: "var(--shadow-romantic)",
         letter: "var(--shadow-letter)",
+        elevated: "var(--shadow-elevated)",
         "glow-rose": "var(--glow-rose)",
         "glow-soft": "var(--glow-soft)",
         "glow-gold": "var(--glow-gold)",
+        "glow-velvet": "var(--glow-velvet)",
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
