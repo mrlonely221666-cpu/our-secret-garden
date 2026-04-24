@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Dancing+Script:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Italianno&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Romantic Design System — Starry night × rose gold × deep plum */
+/* Romantic Design System — Starry night × rose gold × deep plum × velvet */
 
 @layer base {
   :root {
@@ -41,18 +41,30 @@
     /* Romantic tokens */
     --rose: 345 75% 65%;
     --rose-glow: 350 90% 78%;
+    --rose-deep: 340 60% 45%;
     --plum: 295 40% 25%;
-    --gold: 30 80% 70%;
+    --plum-deep: 290 45% 15%;
+    --gold: 38 75% 65%;
+    --gold-bright: 45 90% 72%;
     --starlight: 45 100% 92%;
+    --velvet: 335 50% 12%;
 
-    --gradient-night: radial-gradient(ellipse at top, hsl(295 40% 18%) 0%, hsl(330 35% 6%) 60%, hsl(330 40% 4%) 100%);
+    --gradient-night: radial-gradient(ellipse at 20% 0%, hsl(295 50% 22% / 0.8) 0%, transparent 50%),
+                      radial-gradient(ellipse at 80% 30%, hsl(340 55% 20% / 0.7) 0%, transparent 50%),
+                      radial-gradient(ellipse at 50% 100%, hsl(15 50% 25% / 0.5) 0%, transparent 60%),
+                      linear-gradient(180deg, hsl(330 40% 5%) 0%, hsl(295 45% 8%) 50%, hsl(330 40% 4%) 100%);
     --gradient-rose: linear-gradient(135deg, hsl(345 75% 65%) 0%, hsl(15 85% 75%) 100%);
-    --gradient-letter: linear-gradient(180deg, hsl(35 60% 92%) 0%, hsl(25 55% 85%) 100%);
+    --gradient-rose-gold: linear-gradient(135deg, hsl(345 75% 65%) 0%, hsl(38 75% 65%) 60%, hsl(15 85% 75%) 100%);
+    --gradient-letter: linear-gradient(180deg, hsl(35 60% 94%) 0%, hsl(25 55% 86%) 60%, hsl(20 50% 80%) 100%);
     --gradient-postit: linear-gradient(135deg, hsl(345 80% 88%) 0%, hsl(355 75% 82%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(38 75% 65%) 0%, hsl(45 90% 80%) 50%, hsl(30 70% 55%) 100%);
+    --gradient-velvet: linear-gradient(160deg, hsl(335 45% 14%) 0%, hsl(295 40% 10%) 100%);
 
     --glow-rose: 0 0 40px hsl(345 75% 65% / 0.4), 0 0 80px hsl(345 75% 65% / 0.2);
     --glow-soft: 0 0 30px hsl(350 90% 78% / 0.3);
+    --glow-gold: 0 0 25px hsl(38 80% 65% / 0.35), 0 0 60px hsl(38 80% 65% / 0.15);
     --shadow-romantic: 0 20px 60px -15px hsl(330 60% 5% / 0.7);
+    --shadow-letter: 0 30px 60px -20px hsl(330 60% 3% / 0.8), 0 0 0 1px hsl(38 75% 65% / 0.15) inset;
 
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -83,6 +95,11 @@
   h1, h2, h3, h4 {
     @apply font-display;
   }
+
+  ::selection {
+    background: hsl(var(--rose) / 0.4);
+    color: hsl(var(--starlight));
+  }
 }
 
 @layer components {
@@ -99,12 +116,57 @@
     background: hsl(var(--starlight));
     border-radius: 50%;
     animation: twinkle 4s ease-in-out infinite;
+    box-shadow: 0 0 6px hsl(var(--starlight) / 0.8);
+  }
+
+  /* Falling petals */
+  .petals-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    top: -40px;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(ellipse at 30% 30%, hsl(var(--rose-glow)) 0%, hsl(var(--rose)) 50%, hsl(var(--rose-deep)) 100%);
+    border-radius: 100% 0 100% 0;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 4px hsl(var(--rose-glow) / 0.5));
+    animation: petal-fall linear infinite;
+  }
+
+  /* Nebula glow blobs */
+  .nebula {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    animation: nebula-drift 18s ease-in-out infinite;
   }
 
   /* Glow card */
   .romantic-card {
     @apply bg-card/60 backdrop-blur-xl border border-border rounded-2xl;
     box-shadow: var(--shadow-romantic);
+    position: relative;
+  }
+  .romantic-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(var(--rose) / 0.4), transparent 40%, hsl(var(--gold) / 0.3) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
   }
 
   .glow-rose {
@@ -118,6 +180,37 @@
     color: transparent;
   }
 
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-rose-gold {
+    background: var(--gradient-rose-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Decorative gold divider */
+  .divider-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: hsl(var(--gold));
+  }
+  .divider-ornament::before,
+  .divider-ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--gold) / 0.6), transparent);
+    max-width: 120px;
+  }
+
   /* Particles */
   .particle {
     position: absolute;
@@ -128,6 +221,16 @@
     pointer-events: none;
     box-shadow: 0 0 10px hsl(var(--rose-glow));
   }
+
+  /* Vignette overlay */
+  .vignette::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: radial-gradient(ellipse at center, transparent 50%, hsl(330 50% 3% / 0.6) 100%);
+  }
 }
 
 @layer utilities {
@@ -137,6 +240,9 @@
   .font-script {
     font-family: 'Dancing Script', cursive;
   }
+  .font-calligraphy {
+    font-family: 'Italianno', cursive;
+  }
   .font-body {
     font-family: 'Inter', sans-serif;
   }
@@ -144,7 +250,7 @@
 
 @keyframes twinkle {
   0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.3); }
+  50% { opacity: 1; transform: scale(1.4); }
 }
 
 @keyframes heartbeat {
@@ -159,6 +265,24 @@
   50% { transform: translateY(-10px); }
 }
 
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% {
+    transform: translate3d(var(--drift, 80px), 110vh, 0) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes nebula-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.15); }
+}
+
 @keyframes particle-rise {
   0% { transform: translate(0, 0) scale(1); opacity: 1; }
   100% { transform: translate(var(--tx, 0), var(--ty, -100px)) scale(0); opacity: 0; }
@@ -167,6 +291,11 @@
 @keyframes glow-pulse {
   0%, 100% { filter: drop-shadow(0 0 20px hsl(var(--rose) / 0.5)); }
   50% { filter: drop-shadow(0 0 40px hsl(var(--rose-glow) / 0.9)); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @keyframes fade-in {
@@ -185,9 +314,20 @@
   40%, 80% { transform: translateX(6px); }
 }
 
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .animate-heartbeat { animation: heartbeat 1.4s ease-in-out infinite; }
 .animate-float { animation: float 4s ease-in-out infinite; }
 .animate-glow-pulse { animation: glow-pulse 2s ease-in-out infinite; }
 .animate-fade-in { animation: fade-in 0.6s var(--transition-smooth) both; }
 .animate-scale-in { animation: scale-in 0.4s var(--transition-bounce) both; }
 .animate-shake { animation: shake 0.4s ease-in-out; }
+.animate-spin-slow { animation: spin-slow 30s linear infinite; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, hsl(var(--gold) / 0.3), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
