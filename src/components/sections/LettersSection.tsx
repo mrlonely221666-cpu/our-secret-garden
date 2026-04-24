@@ -40,7 +40,7 @@ export const LettersSection = () => {
           <h2 className="font-display italic text-3xl sm:text-4xl text-gradient-rose-gold">Lettres d'amour</h2>
           <p className="text-muted-foreground text-sm mt-1">Mots du cœur à garder pour toujours</p>
         </div>
-        <Button onClick={() => setAdding(true)} className="bg-gradient-rose-gold text-primary-foreground hover:opacity-90 shadow-glow-rose">
+        <Button onClick={() => setAdding(true)} className="bg-gradient-rose-gold text-primary-foreground hover:opacity-95 shadow-glow-soft hover:shadow-glow-gold transition-all">
           <Plus className="w-4 h-4 mr-2" /> Nouvelle lettre
         </Button>
       </div>
