@@ -36,10 +36,11 @@ export const LettersSection = () => {
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="font-display text-3xl sm:text-4xl text-gradient-rose">Lettres d'amour</h2>
-          <p className="text-muted-foreground text-sm">Mots du cœur à garder pour toujours</p>
+          <p className="font-calligraphy text-xl text-gold-bright leading-none">~ mes mots pour toi ~</p>
+          <h2 className="font-display italic text-3xl sm:text-4xl text-gradient-rose-gold">Lettres d'amour</h2>
+          <p className="text-muted-foreground text-sm mt-1">Mots du cœur à garder pour toujours</p>
         </div>
-        <Button onClick={() => setAdding(true)} className="bg-gradient-rose text-primary-foreground hover:opacity-90 shadow-glow-soft">
+        <Button onClick={() => setAdding(true)} className="bg-gradient-rose-gold text-primary-foreground hover:opacity-90 shadow-glow-rose">
           <Plus className="w-4 h-4 mr-2" /> Nouvelle lettre
         </Button>
       </div>
@@ -50,29 +51,42 @@ export const LettersSection = () => {
           <Textarea placeholder="Écris tes mots ici…" value={content} onChange={(e) => setContent(e.target.value)} rows={6} className="font-script text-lg leading-relaxed" />
           <div className="flex gap-2 justify-end">
             <Button variant="ghost" onClick={() => setAdding(false)}>Annuler</Button>
-            <Button onClick={addLetter} className="bg-gradient-rose text-primary-foreground">Sceller la lettre</Button>
+            <Button onClick={addLetter} className="bg-gradient-rose-gold text-primary-foreground">Sceller la lettre</Button>
           </div>
         </div>
       )}
 
       {letters.length === 0 && !adding && (
         <div className="romantic-card p-12 text-center">
+          <p className="font-calligraphy text-4xl text-gradient-rose-gold mb-2">∼</p>
           <p className="font-script text-2xl text-muted-foreground">Aucune lettre encore… écris la première 💌</p>
         </div>
       )}
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {letters.map((l) => (
           <div
             key={l.id}
             className="group relative cursor-pointer"
             onClick={() => setOpened(l)}
           >
-            <div className="bg-gradient-letter rounded-2xl p-6 shadow-romantic transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-glow-rose aspect-[4/3] flex flex-col">
-              <div className="absolute top-3 right-3 text-rose text-2xl">♥</div>
-              <h3 className="font-display text-2xl text-plum mb-2 pr-6">{l.title}</h3>
-              <p className="font-script text-plum/70 text-lg line-clamp-3 flex-1">{l.content}</p>
-              <p className="text-xs text-plum/50 mt-3">{new Date(l.date).toLocaleDateString("fr-FR")}</p>
+            <div className="bg-gradient-letter rounded-2xl p-6 shadow-letter transition-all duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:shadow-glow-rose aspect-[4/3] flex flex-col relative overflow-hidden">
+              {/* Decorative corner ornament */}
+              <div className="absolute top-0 left-0 w-16 h-16 opacity-20" aria-hidden="true">
+                <svg viewBox="0 0 64 64" fill="none" className="w-full h-full">
+                  <path d="M0 0 L 64 0 L 0 64 Z" fill="hsl(var(--gold))" />
+                </svg>
+              </div>
+              {/* Wax seal */}
+              <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full bg-gradient-to-br from-rose to-rose-deep flex items-center justify-center shadow-lg border-2 border-rose-glow/40 rotate-12">
+                <span className="text-starlight font-display italic text-lg">♥</span>
+              </div>
+              <h3 className="font-display italic text-2xl text-plum-deep mb-2 pr-8 mt-2">{l.title}</h3>
+              <p className="font-script text-plum/80 text-lg line-clamp-3 flex-1">{l.content}</p>
+              <div className="flex items-center gap-2 mt-3 pt-3 border-t border-plum/10">
+                <span className="text-plum/40 text-xs">✦</span>
+                <p className="text-xs text-plum/60 italic font-display">{new Date(l.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</p>
+              </div>
               <button
                 onClick={(e) => { e.stopPropagation(); remove(l.id); }}
                 className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 p-1.5 rounded-full bg-destructive/80 text-destructive-foreground hover:bg-destructive transition-all"
