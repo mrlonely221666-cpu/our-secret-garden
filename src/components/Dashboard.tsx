@@ -57,10 +57,10 @@ export const Dashboard = ({ onLock }: DashboardProps) => {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex-1 min-w-fit px-4 py-3 rounded-xl font-display text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 ${
+                className={`flex-1 min-w-fit px-4 py-3 rounded-xl font-display text-base sm:text-lg transition-all duration-500 flex items-center justify-center gap-2 ${
                   active
-                    ? "bg-gradient-rose-gold text-primary-foreground shadow-glow-rose"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "bg-gradient-rose-gold text-primary-foreground shadow-glow-soft"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
                 <span className="text-lg">{t.emoji}</span>
