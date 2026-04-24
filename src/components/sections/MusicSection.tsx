@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Upload, Trash2, Play, Pause, SkipForward, SkipBack, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,15 +15,18 @@ export const MusicSection = () => {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [currentIdx, setCurrentIdx] = useState<number | null>(null);
+  const [currentId, setCurrentId] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const current = currentIdx !== null ? tracks[currentIdx] : null;
+  const currentIdx = useMemo(
+    () => (currentId ? tracks.findIndex((t) => t.id === currentId) : -1),
+    [currentId, tracks]
+  );
+  const current = currentIdx >= 0 ? tracks[currentIdx] : null;
 
-  const load = async () => {
-    setLoading(true);
+  const load = useCallback(async () => {
     const { data, error } = await supabase
       .from("tracks")
       .select("*")
@@ -39,21 +42,39 @@ export const MusicSection = () => {
     });
     setTracks(withUrls);
     setLoading(false);
-  };
-
-  useEffect(() => { load(); }, []);
+  }, []);
 
   useEffect(() => {
-    if (!audioRef.current || !current) return;
-    audioRef.current.src = current.url;
-    if (playing) audioRef.current.play().catch(() => setPlaying(false));
-  }, [current?.id]);
+    load();
+  }, [load]);
 
+  // Sync src only when the actual track changes
   useEffect(() => {
-    if (!audioRef.current) return;
-    if (playing) audioRef.current.play().catch(() => setPlaying(false));
-    else audioRef.current.pause();
-  }, [playing]);
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (!current) {
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+      return;
+    }
+    if (audio.src !== current.url) {
+      audio.src = current.url;
+      audio.load();
+    }
+  }, [current?.id, current?.url]);
+
+  // Sync play/pause without re-triggering on every render
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !current) return;
+    if (playing) {
+      const p = audio.play();
+      if (p) p.catch(() => setPlaying(false));
+    } else {
+      audio.pause();
+    }
+  }, [playing, current?.id]);
 
   const handleUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -91,39 +112,50 @@ export const MusicSection = () => {
     }
     setUploading(false);
     if (added > 0) {
-      toast.success(`${added} musique(s) sauvegardée(s) dans le cloud 🎵`);
+      toast.success(`${added} musique(s) sauvegardée(s) ☁️`);
       load();
     }
   };
 
-  const playTrack = (idx: number) => {
-    setCurrentIdx(idx);
+  const playTrack = (id: string) => {
+    setCurrentId(id);
     setPlaying(true);
   };
 
-  const next = () => {
-    if (currentIdx === null || tracks.length === 0) return;
-    setCurrentIdx((currentIdx + 1) % tracks.length);
+  const next = useCallback(() => {
+    if (tracks.length === 0 || currentIdx < 0) return;
+    const n = tracks[(currentIdx + 1) % tracks.length];
+    setCurrentId(n.id);
     setPlaying(true);
-  };
+  }, [tracks, currentIdx]);
 
   const prev = () => {
-    if (currentIdx === null || tracks.length === 0) return;
-    setCurrentIdx((currentIdx - 1 + tracks.length) % tracks.length);
+    if (tracks.length === 0 || currentIdx < 0) return;
+    const p = tracks[(currentIdx - 1 + tracks.length) % tracks.length];
+    setCurrentId(p.id);
     setPlaying(true);
   };
 
   const remove = async (t: Track) => {
-    const idx = tracks.findIndex((x) => x.id === t.id);
-    await supabase.storage.from("tracks").remove([t.path]);
-    await supabase.from("tracks").delete().eq("id", t.id);
-    const next = tracks.filter((x) => x.id !== t.id);
-    setTracks(next);
-    if (currentIdx === idx) {
+    // Optimistic UI: stop audio if removing current track BEFORE state update
+    if (currentId === t.id) {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.pause();
+        audio.removeAttribute("src");
+        audio.load();
+      }
       setPlaying(false);
-      setCurrentIdx(null);
-    } else if (currentIdx !== null && idx < currentIdx) {
-      setCurrentIdx(currentIdx - 1);
+      setCurrentId(null);
+    }
+    setTracks((prev) => prev.filter((x) => x.id !== t.id));
+    const [{ error: storageErr }, { error: dbErr }] = await Promise.all([
+      supabase.storage.from("tracks").remove([t.path]),
+      supabase.from("tracks").delete().eq("id", t.id),
+    ]);
+    if (storageErr || dbErr) {
+      toast.error("Erreur suppression");
+      load();
     }
   };
 
@@ -156,7 +188,7 @@ export const MusicSection = () => {
       {/* Player */}
       {current && (
         <div className="romantic-card p-6 flex items-center gap-4 animate-scale-in shadow-glow-soft">
-          <div className="w-14 h-14 rounded-full bg-gradient-rose-gold flex items-center justify-center shadow-glow-soft animate-glow-pulse text-2xl">
+          <div className="w-14 h-14 rounded-full bg-gradient-rose-gold flex items-center justify-center shadow-glow-soft text-2xl">
             ♥
           </div>
           <div className="flex-1 min-w-0">
@@ -177,7 +209,7 @@ export const MusicSection = () => {
         </div>
       )}
 
-      <audio ref={audioRef} onEnded={next} preload="auto" />
+      <audio ref={audioRef} onEnded={next} preload="none" />
 
       {loading && (
         <div className="romantic-card p-12 flex justify-center">
@@ -193,29 +225,32 @@ export const MusicSection = () => {
       )}
 
       <div className="space-y-2">
-        {tracks.map((t, idx) => (
-          <div
-            key={t.id}
-            className={`romantic-card p-4 flex items-center gap-3 transition-all hover:shadow-glow-soft ${
-              currentIdx === idx ? "border-rose/60" : ""
-            }`}
-          >
-            <button
-              onClick={() => (currentIdx === idx ? setPlaying((p) => !p) : playTrack(idx))}
-              className="w-10 h-10 rounded-full bg-rose/20 hover:bg-rose/40 flex items-center justify-center transition-all"
+        {tracks.map((t) => {
+          const isCurrent = currentId === t.id;
+          return (
+            <div
+              key={t.id}
+              className={`romantic-card p-4 flex items-center gap-3 transition-all hover:shadow-glow-soft ${
+                isCurrent ? "border-rose/60" : ""
+              }`}
             >
-              {currentIdx === idx && playing ? <Pause className="w-4 h-4 text-rose-glow" /> : <Play className="w-4 h-4 text-rose-glow ml-0.5" />}
-            </button>
-            <p className="flex-1 font-body truncate">{t.name}</p>
-            <button
-              onClick={() => remove(t)}
-              className="p-2 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
-              aria-label="Supprimer"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          </div>
-        ))}
+              <button
+                onClick={() => (isCurrent ? setPlaying((p) => !p) : playTrack(t.id))}
+                className="w-10 h-10 rounded-full bg-rose/20 hover:bg-rose/40 flex items-center justify-center transition-all"
+              >
+                {isCurrent && playing ? <Pause className="w-4 h-4 text-rose-glow" /> : <Play className="w-4 h-4 text-rose-glow ml-0.5" />}
+              </button>
+              <p className="flex-1 font-body truncate">{t.name}</p>
+              <button
+                onClick={() => remove(t)}
+                className="p-2 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+                aria-label="Supprimer"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
