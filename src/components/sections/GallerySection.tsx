@@ -1,61 +1,109 @@
-import { useRef, useState } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Upload, Trash2, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Upload, Trash2, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 interface Photo {
   id: string;
-  src: string; // base64 data URL
   name: string;
+  path: string;
+  url: string;
 }
 
-const fileToDataURL = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result as string);
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
-
 export const GallerySection = () => {
-  const [photos, setPhotos] = useLocalStorage<Photo[]>("romantic_photos", []);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const [lightbox, setLightbox] = useState<Photo | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const load = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("photos")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      toast.error("Erreur de chargement");
+      setLoading(false);
+      return;
+    }
+
+    const withUrls: Photo[] = (data ?? []).map((p) => {
+      const { data: pub } = supabase.storage.from("photos").getPublicUrl(p.path);
+      return { id: p.id, name: p.name, path: p.path, url: pub.publicUrl };
+    });
+    setPhotos(withUrls);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
   const handleUpload = async (files: FileList | null) => {
-    if (!files) return;
-    const newPhotos: Photo[] = [];
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    let added = 0;
     for (const file of Array.from(files)) {
-      if (!file.type.startsWith("image/")) continue;
-      if (file.size > 4 * 1024 * 1024) {
-        toast.error(`${file.name} est trop lourde (max 4 Mo)`);
+      if (!file.type.startsWith("image/")) {
+        toast.error(`${file.name} n'est pas une image`);
         continue;
       }
-      try {
-        const src = await fileToDataURL(file);
-        newPhotos.push({ id: crypto.randomUUID(), src, name: file.name });
-      } catch {
-        toast.error(`Impossible de lire ${file.name}`);
+      if (file.size > 50 * 1024 * 1024) {
+        toast.error(`${file.name} dépasse 50 Mo`);
+        continue;
       }
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from("photos").upload(path, file, {
+        contentType: file.type,
+        upsert: false,
+      });
+      if (upErr) {
+        toast.error(`Erreur upload ${file.name}`);
+        continue;
+      }
+      const { error: insErr } = await supabase
+        .from("photos")
+        .insert({ name: file.name, path });
+      if (insErr) {
+        await supabase.storage.from("photos").remove([path]);
+        toast.error(`Erreur enregistrement ${file.name}`);
+        continue;
+      }
+      added++;
     }
-    if (newPhotos.length) {
-      setPhotos([...newPhotos, ...photos]);
-      toast.success(`${newPhotos.length} photo(s) ajoutée(s) ✨`);
+    setUploading(false);
+    if (added > 0) {
+      toast.success(`${added} photo(s) sauvegardée(s) dans le cloud ✨`);
+      load();
     }
   };
 
-  const remove = (id: string) => setPhotos(photos.filter((p) => p.id !== id));
+  const remove = async (p: Photo) => {
+    await supabase.storage.from("photos").remove([p.path]);
+    await supabase.from("photos").delete().eq("id", p.id);
+    setPhotos((prev) => prev.filter((x) => x.id !== p.id));
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="font-display text-3xl sm:text-4xl text-gradient-rose">Galerie</h2>
-          <p className="text-muted-foreground text-sm">Nos instants figés dans la lumière</p>
+          <p className="font-calligraphy text-xl text-gold-bright leading-none">~ nos souvenirs ~</p>
+          <h2 className="font-display italic text-3xl sm:text-4xl text-gradient-rose-gold">Galerie</h2>
+          <p className="text-muted-foreground text-sm mt-1">Sauvegardées dans le cloud, accessibles partout ☁️</p>
         </div>
-        <Button onClick={() => inputRef.current?.click()} className="bg-gradient-rose text-primary-foreground hover:opacity-90 shadow-glow-soft">
-          <Upload className="w-4 h-4 mr-2" /> Ajouter des photos
+        <Button
+          onClick={() => inputRef.current?.click()}
+          disabled={uploading}
+          className="bg-gradient-rose-gold text-primary-foreground hover:opacity-90 shadow-glow-rose"
+        >
+          {uploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
+          {uploading ? "Envoi…" : "Ajouter des photos"}
         </Button>
         <input
           ref={inputRef}
@@ -67,8 +115,15 @@ export const GallerySection = () => {
         />
       </div>
 
-      {photos.length === 0 && (
+      {loading && (
+        <div className="romantic-card p-12 flex justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-rose-glow" />
+        </div>
+      )}
+
+      {!loading && photos.length === 0 && (
         <div className="romantic-card p-12 text-center">
+          <p className="font-calligraphy text-4xl text-gradient-rose-gold mb-2">∼</p>
           <p className="font-script text-2xl text-muted-foreground">Aucun souvenir partagé pour l'instant 🖼️</p>
         </div>
       )}
@@ -80,10 +135,10 @@ export const GallerySection = () => {
             className="group relative aspect-square overflow-hidden rounded-2xl shadow-romantic cursor-pointer"
             onClick={() => setLightbox(p)}
           >
-            <img src={p.src} alt={p.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <img src={p.url} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             <button
-              onClick={(e) => { e.stopPropagation(); remove(p.id); }}
+              onClick={(e) => { e.stopPropagation(); remove(p); }}
               className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-2 rounded-full bg-destructive/80 text-destructive-foreground hover:bg-destructive transition-all"
               aria-label="Supprimer"
             >
@@ -102,7 +157,7 @@ export const GallerySection = () => {
             <X className="w-8 h-8" />
           </button>
           <img
-            src={lightbox.src}
+            src={lightbox.url}
             alt={lightbox.name}
             className="max-w-full max-h-[90vh] rounded-2xl shadow-glow-rose animate-scale-in"
             onClick={(e) => e.stopPropagation()}
