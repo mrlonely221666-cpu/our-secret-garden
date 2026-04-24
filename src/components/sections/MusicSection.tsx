@@ -138,7 +138,7 @@ export const MusicSection = () => {
         <Button
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="bg-gradient-rose-gold text-primary-foreground hover:opacity-90 shadow-glow-rose"
+          className="bg-gradient-rose-gold text-primary-foreground hover:opacity-95 shadow-glow-soft hover:shadow-glow-gold transition-all"
         >
           {uploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
           {uploading ? "Envoi…" : "Ajouter MP3"}
