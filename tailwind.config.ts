@@ -14,6 +14,7 @@ export default {
       fontFamily: {
         display: ["Cormorant Garamond", "serif"],
         script: ["Dancing Script", "cursive"],
+        calligraphy: ["Italianno", "cursive"],
         body: ["Inter", "sans-serif"],
       },
       colors: {
