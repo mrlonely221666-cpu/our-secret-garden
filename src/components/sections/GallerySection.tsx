@@ -147,14 +147,7 @@ export const GallerySection = () => {
             onClick={() => setLightbox(p)}
           >
             <img src={p.url} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-velvet-deep/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <button
-              onClick={(e) => { e.stopPropagation(); remove(p); }}
-              className="absolute top-2 right-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 p-2 rounded-full bg-destructive/80 text-destructive-foreground hover:bg-destructive transition-all"
-              aria-label="Supprimer"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-velvet-deep/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
         ))}
       </div>
