@@ -78,7 +78,7 @@ export const GallerySection = () => {
     }
     setUploading(false);
     if (added > 0) {
-      toast.success(`${added} photo(s) sauvegardée(s) dans le cloud ✨`);
+      toast.success(`${added} photo(s) ajoutée(s) ✨`);
       load();
     }
   };
