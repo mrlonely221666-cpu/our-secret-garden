@@ -149,18 +149,32 @@ export const GallerySection = () => {
 
       {lightbox && (
         <div
-          className="fixed inset-0 z-50 bg-background/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setLightbox(null)}
         >
-          <button onClick={() => setLightbox(null)} className="absolute top-6 right-6 text-foreground hover:text-rose-glow">
-            <X className="w-8 h-8" />
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox(null); }}
+            className="absolute top-4 right-4 z-[110] p-3 rounded-full bg-velvet-deep/70 text-foreground hover:text-rose-glow hover:bg-velvet-deep transition-all shadow-romantic"
+            aria-label="Fermer"
+          >
+            <X className="w-6 h-6" />
           </button>
           <img
             src={lightbox.url}
             alt={lightbox.name}
-            className="max-w-full max-h-[90vh] rounded-2xl shadow-glow-rose animate-scale-in"
+            className="max-w-full max-h-[85vh] rounded-2xl shadow-glow-rose animate-scale-in select-none"
             onClick={(e) => e.stopPropagation()}
           />
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox(null); }}
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full bg-gradient-rose-gold text-primary-foreground text-sm font-medium shadow-glow-soft hover:shadow-glow-gold transition-all"
+          >
+            Fermer
+          </button>
         </div>
       )}
     </div>
