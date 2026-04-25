@@ -151,9 +151,9 @@ export const GallerySection = () => {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md animate-fade-in overflow-y-auto"
+          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md animate-fade-in"
         >
-          {/* Backdrop click-to-close layer */}
+          {/* Backdrop click-to-close */}
           <button
             type="button"
             aria-label="Fermer"
@@ -161,34 +161,37 @@ export const GallerySection = () => {
             className="absolute inset-0 w-full h-full cursor-default"
           />
 
-          <div className="relative min-h-full flex flex-col items-center justify-center gap-4 p-4 sm:p-6 pointer-events-none">
+          {/* Image area: takes all space above the action bar */}
+          <div className="absolute inset-x-0 top-0 bottom-20 flex items-center justify-center p-4 pointer-events-none">
             <img
               src={lightbox.url}
               alt={lightbox.name}
-              className="pointer-events-auto max-w-[92vw] max-h-[72vh] sm:max-h-[78vh] rounded-2xl shadow-glow-rose animate-scale-in select-none"
+              className="pointer-events-auto max-w-full max-h-full object-contain rounded-2xl shadow-glow-rose animate-scale-in select-none"
             />
-            <div className="pointer-events-auto flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  const p = lightbox;
-                  setLightbox(null);
-                  remove(p);
-                }}
-                className="px-4 py-2 rounded-full bg-velvet-deep/70 hover:bg-velvet-deep text-muted-foreground hover:text-destructive border border-border/40 text-xs tracking-wide transition-all flex items-center gap-1.5"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-                Supprimer
-              </button>
-              <button
-                type="button"
-                onClick={() => setLightbox(null)}
-                className="px-5 py-2 rounded-full bg-gradient-rose-gold text-primary-foreground text-xs tracking-wide shadow-glow-soft hover:shadow-glow-gold transition-all flex items-center gap-1.5"
-              >
-                <X className="w-3.5 h-3.5" />
-                Fermer
-              </button>
-            </div>
+          </div>
+
+          {/* Bottom action bar */}
+          <div className="absolute inset-x-0 bottom-0 h-20 flex items-center justify-center gap-3 px-4 pb-4">
+            <button
+              type="button"
+              onClick={() => {
+                const p = lightbox;
+                setLightbox(null);
+                remove(p);
+              }}
+              className="px-4 py-2 rounded-full bg-velvet-deep/70 hover:bg-velvet-deep text-muted-foreground hover:text-destructive border border-border/40 text-xs tracking-wide transition-all flex items-center gap-1.5"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              Supprimer
+            </button>
+            <button
+              type="button"
+              onClick={() => setLightbox(null)}
+              className="px-5 py-2 rounded-full bg-gradient-rose-gold text-primary-foreground text-xs tracking-wide shadow-glow-soft hover:shadow-glow-gold transition-all flex items-center gap-1.5"
+            >
+              <X className="w-3.5 h-3.5" />
+              Fermer
+            </button>
           </div>
         </div>
       )}
