@@ -112,7 +112,7 @@ export const MusicSection = () => {
     }
     setUploading(false);
     if (added > 0) {
-      toast.success(`${added} musique(s) sauvegardée(s) ☁️`);
+      toast.success(`${added} musique(s) ajoutée(s) ✨`);
       load();
     }
   };
@@ -165,7 +165,6 @@ export const MusicSection = () => {
         <div>
           <p className="font-calligraphy text-xl text-gold-bright leading-none">~ notre playlist ~</p>
           <h2 className="font-display italic text-3xl sm:text-4xl text-gradient-rose-gold">Musique</h2>
-          <p className="text-muted-foreground text-sm mt-1">Sauvegardée dans le cloud, accessible partout ☁️</p>
         </div>
         <Button
           onClick={() => inputRef.current?.click()}
