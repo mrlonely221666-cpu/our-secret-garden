@@ -156,38 +156,42 @@ export const GallerySection = () => {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex flex-col items-center justify-center gap-4 p-4 sm:p-6 animate-fade-in"
           onClick={() => setLightbox(null)}
         >
-          <div className="absolute top-3 right-3 z-[110] flex items-center gap-2">
+          <img
+            src={lightbox.url}
+            alt={lightbox.name}
+            className="max-w-[92vw] max-h-[78vh] sm:max-h-[80vh] rounded-2xl shadow-glow-rose animate-scale-in select-none"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <div
+            className="flex items-center gap-3 animate-fade-in"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={() => {
                 const p = lightbox;
                 setLightbox(null);
                 remove(p);
               }}
-              className="p-2 rounded-full bg-velvet-deep/70 text-foreground hover:text-destructive hover:bg-velvet-deep transition-all shadow-romantic"
-              aria-label="Supprimer"
+              className="px-4 py-2 rounded-full bg-velvet-deep/60 hover:bg-velvet-deep text-muted-foreground hover:text-destructive border border-border/40 text-xs tracking-wide transition-all flex items-center gap-1.5"
+              aria-label="Supprimer la photo"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className="w-3.5 h-3.5" />
+              Supprimer
             </button>
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); setLightbox(null); }}
-              className="p-2 rounded-full bg-velvet-deep/70 text-foreground hover:text-rose-glow hover:bg-velvet-deep transition-all shadow-romantic"
+              onClick={() => setLightbox(null)}
+              className="px-5 py-2 rounded-full bg-gradient-rose-gold text-primary-foreground text-xs tracking-wide shadow-glow-soft hover:shadow-glow-gold transition-all flex items-center gap-1.5"
               aria-label="Fermer"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
+              Fermer
             </button>
           </div>
-          <img
-            src={lightbox.url}
-            alt={lightbox.name}
-            className="max-w-full max-h-[88vh] rounded-2xl shadow-glow-rose animate-scale-in select-none"
-            onClick={(e) => e.stopPropagation()}
-          />
         </div>
       )}
     </div>
