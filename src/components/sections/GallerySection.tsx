@@ -95,7 +95,6 @@ export const GallerySection = () => {
         <div>
           <p className="font-calligraphy text-xl text-gold-bright leading-none">~ nos souvenirs ~</p>
           <h2 className="font-display italic text-3xl sm:text-4xl text-gradient-rose-gold">Galerie</h2>
-          <p className="text-muted-foreground text-sm mt-1">Sauvegardées dans le cloud, accessibles partout ☁️</p>
         </div>
         <Button
           onClick={() => inputRef.current?.click()}
