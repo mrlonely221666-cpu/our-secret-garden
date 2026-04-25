@@ -31,7 +31,7 @@ const Index = () => {
             </h1>
             <Ornament className="max-w-sm mx-auto" />
             <p className="font-script text-xl sm:text-2xl text-rose-glow/90">
-              Touche le cœur pour le réparer…
+              Touche-les pour qu'ils se retrouvent…
             </p>
           </div>
 
