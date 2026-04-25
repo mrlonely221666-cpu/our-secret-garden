@@ -112,7 +112,7 @@ export const MusicSection = () => {
     }
     setUploading(false);
     if (added > 0) {
-      toast.success(`${added} musique(s) sauvegardée(s) ☁️`);
+      toast.success(`${added} musique(s) ajoutée(s) ✨`);
       load();
     }
   };
